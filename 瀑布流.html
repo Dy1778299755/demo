@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style>
+			#wrap{
+				width:840px;
+				border:1px red solid;
+				padding:10px 5px;
+				margin:0 auto;
+				overflow: hidden;
+			}
+			ul{
+				width:200px;
+				margin:0 5px;
+				float: left;
+				padding:0;
+				list-style: none;
+			}
+			li{
+				width:200px;
+				margin-bottom: 10px;
+				background: #ccc;
+				font-size: 100px;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrap">
+			<ul></ul>
+			<ul></ul>
+			<ul></ul>
+			<ul></ul>
+		</div>
+	</body>
+	<script>
+		//1.随机生成LI的高度
+		//2.生成LI
+		//3.判断UL高度
+		//4.将LI插入到最低UL里面
+		var ul = document.getElementsByTagName('ul');
+		var li = document.getElementsByTagName('li');
+//		apply();
+//		var arr = [23,42,37,58]
+//		console.log(Math.min.apply(null,arr))
+//		console.log(document.documentElement.clientHeight);
+		addNode(30)
+		window.onscroll = function(){
+			var oLI = document.createElement('li');
+			var arrH =[],index = 0,iHeight = 0;
+			iHeight = scrollY() + clientY();
+//			console.log(scrollY())
+			for (var i = 0;i<ul.length; i++) {
+				arrH.push(ul[i].offsetHeight)
+			}
+			index = arrH.indexOf(Math.min.apply(null,arrH));
+			var iH = ul[index].offsetTop + ul[index].offsetHeight - 100;
+			if( iH <= iHeight){
+				addNode(30)
+			}
+			
+			
+		}
+		function addNode(num){
+			num = isNaN(num) ? 0 : num;
+			for (var i = 0;i<num ; i++) {
+				creatLi()
+			}
+		}
+		function creatLi(){
+			var arrH = [],index = 0;
+			var oLI = document.createElement('li');
+			oLI.innerHTML = li.length +1; 
+			oLI.style.height = randH(100,300) +'px';
+			for (var i = 0;i<ul.length; i++) {
+				arrH.push(ul[i].offsetHeight)
+			}
+			index = arrH.indexOf(Math.min.apply(null,arrH));
+			ul[index].appendChild(oLI);
+		}
+		function randH(min,max){ //100 - 300
+			return parseInt(Math.random()*(max-min+1)+ min)
+		}
+		function scrollY(){
+			return document.body.scrollTop || document.documentElement.scrollTop;
+		}
+		function clientY(){
+			return document.documentElement.clientHeight || window.innerHeight
+		}
+	</script>
+</html>
